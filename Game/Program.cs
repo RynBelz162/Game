@@ -1,5 +1,6 @@
-using Game.Client.Pages;
+using Game.Clients;
 using Game.Components;
+using Game.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddHttpClient<ApiFootballClient>(
+    client =>
+    {
+        var settings = builder.Configuration.GetSection("FootballApi").Get<FootballApi>() 
+            ?? throw new NullReferenceException("Football Api settings are null");
+
+        client.BaseAddress = new Uri(settings.Url);
+        client.DefaultRequestHeaders.Add("X-Rapidapi-Key", settings.ApiKey);
+    });
 
 var app = builder.Build();
 
