@@ -7,7 +7,7 @@ public class ApiFootballClient(HttpClient httpClient)
 {
     public async Task<Team[]> GetTeamsForLeague(int leagueId, int seasonYear)
     {
-        string url = $"teams/league={leagueId}&season={seasonYear}";
+        string url = $"/teams?league={leagueId}&season={seasonYear}";
         var request = await httpClient.GetAsync(url);
 
         request.EnsureSuccessStatusCode();

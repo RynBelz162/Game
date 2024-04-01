@@ -1,7 +1,31 @@
 ﻿@page "/"
 
+@using Game.Clients
+@using Game.Models
+@using Game.Shared.Constants
+@inject ApiFootballClient footballClient
+
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<div>
+    <h1>Hello, world!</h1>
 
-Welcome to your new app.
+    <ul>
+        @foreach (var team in _teams)
+        {
+            <li>
+                @team.Information.Name
+            </li>
+        }
+    </ul>
+</div>
+
+@code {
+    private List<Team> _teams { get; set; } = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await footballClient.GetTeamsForLeague(LeagueIds.MajorLeagueSoccer, 2024);
+        _teams = result.ToList();
+    }
+}
