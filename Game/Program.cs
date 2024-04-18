@@ -1,6 +1,7 @@
-using Game.Clients;
+using Game.Shared.Clients;
 using Game.Components;
-using Game.Configuration;
+using Game.Shared.Configuration;
+using Game.Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,8 @@ builder.Services.AddHttpClient<ApiFootballClient>(
         client.BaseAddress = new Uri(settings.Url);
         client.DefaultRequestHeaders.Add("X-Rapidapi-Key", settings.ApiKey);
     });
+
+builder.Services.AddSingleton<TeamService>();
 
 var app = builder.Build();
 
