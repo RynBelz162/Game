@@ -27,6 +27,10 @@
                 </button>
             </div>
         </EditForm>
+
+        <button @onclick="Skip" disabled="@IsBusy" class="mt-4 w-full bg-gray-800 hover:bg-gray-700 disabled:bg-gray-600 disabled:hover:bg-gray-600 p-2 rounded-lg">
+            Skip
+        </button>
     }
 </div>
 
@@ -67,7 +71,20 @@
         {
             IsBusy = false;
         }
-        
+    }
+
+    async Task Skip()
+    {
+        IsBusy = true;
+
+        try
+        {
+            Team = await teamService.GetRandomTeam();
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     public class GuessModel
